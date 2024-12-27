@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose.com - Find Your Perfect Phone | Expert Device Recommendations</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Find the perfect phone based on your needs. Compare phones by price, features, and specifications. Get expert recommendations for your next smartphone purchase.">
+    <meta name="keywords" content="phone comparison, smartphone finder, phone recommendations, best phone, phone buying guide">
+    
+    <!-- Open Graph Tags for Social Media -->
+    <meta property="og:title" content="Choose.com - Find Your Perfect Phone">
+    <meta property="og:description" content="Get personalized phone recommendations based on your needs and budget.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://choose.com">
+    
+    <!-- Schema.org markup for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Choose.com",
+      "description": "Expert device recommendations and comparison tool",
+      "url": "https://choose.com"
+    }
+    </script>
+
+    <style>
+        /* Results Styles */
+        .results-container {
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+            margin-top: 2rem;
+            padding: 1rem;
+        }
+
+        .phones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .phone-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .phone-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: #2c3e50;
+        }
+
+        .phone-specs {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .phone-specs div {
+            margin: 0.25rem 0;
+        }
+
+        .spec-true {
+            color: #059669;
+        }
+
+        .spec-false {
+            color: #dc2626;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        /* Navigation Styles */
+        .nav-container {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+            color: #666;
+            text-decoration: none;
+        }
+
+        .nav-item.active {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .coming-soon {
+            position: absolute;
+            top: -8px;
+            right: -60px;
+            background-color: #fef3c7;
+            color: #92400e;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+        }
+
+        /* Main Content Styles */
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .search-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        select, input[type="range"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+        }
+
+        .range-values {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .advanced-toggle {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+
+        .advanced-search {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .advanced-search.show {
+            display: block;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-button {
+            background-color: #3b82f6;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-button:hover {
+            background-color: #2563eb;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .search-container {
+                padding: 1rem;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loader Design */
+        .loader {
+        display: none;
+        width: 48px;
+        height: 48px;
+        border: 5px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 5px solid #3b82f6;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .search-button:disabled {
+        background-color: #93c5fd;
+        cursor: not-allowed;
+    }
+
+
+    .phone-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background-color: #f8f8f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.phone-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.shopping-links {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.shop-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    text-align: center;
+    transition: opacity 0.2s;
+    color: white;
+    font-weight: 500;
+}
+
+.shop-link:hover {
+    opacity: 0.9;
+}
+
+.shop-link.amazon {
+    background-color: #FF9900;
+}
+
+.shop-link.ebay {
+    background-color: #e53238;
+}
+
+.shop-link.bestbuy {
+    background-color: #0046be;
+}
+
+@media (max-width: 768px) {
+    .shopping-links {
+        flex-direction: column;
+    }
+    
+    .shop-link {
+        width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+    <header class="nav-container">
+        <nav>
+            <a href="/" class="logo">choose.com</a>
+            <div class="nav-links">
+                <a href="/phones" class="nav-item active">Phones</a>
+                <a href="#" class="nav-item">Cars <span class="coming-soon">Coming Soon</span></a>
+                <a href="#" class="nav-item">Computers <span class="coming-soon">Coming Soon</span></a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="search-container">
+            <h1>Find Your Perfect Phone</h1>
+            <form id="phone-finder" action="/search" method="GET">
+                <!-- Quick Search Section -->
+                <div class="form-group">
+                    <label for="os">Operating System</label>
+                    <select id="os" name="os">
+                        <option value="no-preference">No Preference</option>
+                        <option value="ios">iOS (Apple)</option>
+                        <option value="Android">Android</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="year">Year of Launch</label>
+                    <input type="range" id="year" name="year" min="2012" max="2024" value="2024">
+                    <div class="range-values">
+                        <span>2012</span>
+                        <span>2024</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price Range</label>
+                    <select id="price" name="price">
+                        <option value="low">Low ($0 - $450)</option>
+                        <option value="medium">Medium ($450 - $950)</option>
+                        <option value="high">High ($900 - $2000)</option>
+                    </select>
+                </div>
+
+                <!-- <div class="form-group">
+                    <label for="usage">Primary Use</label>
+                    <select id="usage" name="usage">
+                        <option value="">What will you use it for?</option>
+                        <option value="gaming">Gaming</option>
+                        <option value="photography">Photography</option>
+                        <option value="business">Business</option>
+                        <option value="everyday">Everyday Use</option>
+                    </select>
+                </div> -->
+
+                <button type="button" class="advanced-toggle" onclick="toggleAdvanced()">
+                    Show Advanced Search
+                </button>
+
+                <!-- Advanced Search Section -->
+                <div id="advanced-search" class="advanced-search">
+                    <div class="specs-grid">
+                        <div class="form-group">
+                            <label for="camera">Camera</label>
+                            <select id="camera" name="camera">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="display">Display</label>
+                            <select id="display" name="display">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="battery">Battery Life</label>
+                            <select id="battery" name="battery">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ram">RAM</label>
+                            <select id="ram" name="ram">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="storage">Storage</label>
+                            <select id="storage" name="storage">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>External Specifications</label>
+                        <div class="specs-grid">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="usb" name="specs[]" value="usb">
+                                <label for="usb">USB Port</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="sd" name="specs[]" value="sd">
+                                <label for="sd">SD Card</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="wireless" name="specs[]" value="wireless">
+                                <label for="wireless">Wireless Charging</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="fingerprint" name="specs[]" value="fingerprint">
+                                <label for="fingerprint">Fingerprint Scanner</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="nfc" name="specs[]" value="nfc">
+                                <label for="nfc">NFC</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="face" name="specs[]" value="face">
+                                <label for="face">Face Unlock</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="speakers" name="specs[]" value="speakers">
+                                <label for="speakers">Dual Speakers</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="search-button">Find My Perfect Phone</button>
+            </form>
+            <div id="loader" class="loader"></div>
+          </section>
+
+        <section id="results" class="results-container" style="display: none; margin-bottom: 2rem;">
+            <h2 style="margin-bottom: 1rem;">Recommended Phones</h2>
+            <div id="phones-list" class="phones-grid"></div>
+        </section>
+    </main>
+
+    <script>
+        // Function to construct API URL with query parameters
+        function constructQueryURL(formData) {
+            const baseUrl = 'https://phonesdb.onrender.com/phones2/filter';
+            const params = new URLSearchParams();
+
+            // Handle OS
+            if (formData.get('os') !== 'no-preference') {
+                params.append('os', formData.get('os'));
+            }
+
+            // Handle year
+            const year = formData.get('year');
+            if (year) {
+                params.append('releaseDate', year);
+            }
+
+            // Handle price ranges
+            const priceRange = formData.get('price');
+            if (priceRange) {
+                switch(priceRange) {
+                    case 'low':
+                        params.append('priceMin', '0');
+                        params.append('priceMax', '450');
+                        break;
+                    case 'medium':
+                        params.append('priceMin', '450');
+                        params.append('priceMax', '950');
+                        break;
+                    case 'high':
+                        params.append('priceMin', '900');
+                        params.append('priceMax', '2000');
+                        break;
+                }
+            }
+
+            // Handle advanced search parameters if visible
+            const advancedSection = document.getElementById('advanced-search');
+            if (advancedSection.classList.contains('show')) {
+                // Camera
+                const camera = formData.get('camera');
+                if (camera) {
+                    switch(camera) {
+                        case 'low':
+                            params.append('cam1Min', '0');
+                            params.append('cam1Max', '8');
+                            break;
+                        case 'medium':
+                            params.append('cam1Min', '8');
+                            params.append('cam1Max', '16');
+                            break;
+                        case 'high':
+                            params.append('cam1Min', '16');
+                            params.append('cam1Max', '108');
+                            break;
+                    }
+                }
+
+                // External specifications
+                const specs = formData.getAll('specs[]');
+                specs.forEach(spec => {
+                    switch(spec) {
+                        case 'wireless':
+                            params.append('wirelesscharging', 'true');
+                            break;
+                        case 'fingerprint':
+                            params.append('fingerprint', 'true');
+                            break;
+                        case 'sd':
+                            params.append('memoryslot', 'true');
+                            break;
+                    }
+                });
+            }
+
+            return `${baseUrl}?${params.toString()}`;
+        }
+
+       // Function to get shopping links - using hardcoded templates for major retailers
+function getShoppingLinks(phoneName) {
+    const cleanName = encodeURIComponent(phoneName.trim());
+    return {
+        amazon: `https://www.amazon.com/s?k=${cleanName}+phone`,
+        ebay: `https://www.ebay.com/sch/i.html?_nkw=${cleanName}+phone`,
+        bestbuy: `https://www.bestbuy.com/site/searchpage.jsp?st=${cleanName}`
+    };
+}
+
+// Function to get phone image from GSM Arena
+async function getPhoneImage(phoneName) {
+    // Clean and format the phone name
+    const cleanName = phoneName.toLowerCase()
+        .replace(/\s+/g, '-')           // Replace spaces with hyphens
+        .replace(/[^a-z0-9-]/g, '')     // Remove special characters
+        .replace(/-+/g, '-');           // Remove multiple consecutive hyphens
+
+    // Extract brand and model
+    const parts = phoneName.toLowerCase().split(' ');
+    const brand = parts[0];
+    const model = parts.slice(1).join('-');
+
+    // Different URL patterns to try
+    const urlPatterns = [
+        `https://fdn2.gsmarena.com/vv/pics/${brand}/${brand}-${model}-1.jpg`,
+        `https://fdn2.gsmarena.com/vv/pics/${brand}/${cleanName}-1.jpg`,
+        `https://fdn2.gsmarena.com/vv/pics/${brand}/${brand}-${cleanName}-1.jpg`
+    ];
+
+    // Try each URL pattern
+    for (const url of urlPatterns) {
+        try {
+            const response = await fetch(url);
+            if (response.ok) {
+                return url;
+            }
+        } catch (error) {
+            console.error(`Failed to fetch image from ${url}:`, error);
+            continue;
+        }
+    }
+
+    // If no GSM Arena images work, fall back to placeholder
+    return '/api/placeholder/200/200';
+}
+
+// Modified display results function
+async function displayResults(phones) {
+    const resultsSection = document.getElementById('results');
+    const phonesList = document.getElementById('phones-list');
+    phonesList.innerHTML = '';
+
+    for (const phone of phones) {
+        const phoneCard = document.createElement('div');
+        phoneCard.className = 'phone-card';
+        
+        // Get image and shopping links
+        const imageUrl = await getPhoneImage(phone.username);
+        const shoppingLinks = getShoppingLinks(phone.username);
+        
+        phoneCard.innerHTML = `
+            <div class="phone-image">
+                <img src="${imageUrl}" alt="${phone.username}" 
+                     onerror="this.src='/api/placeholder/200/200'" 
+                     loading="lazy" />
+            </div>
+            <h3>${phone.username}</h3>
+            <div class="phone-specs">
+                <div>Release Date: ${phone.releaseDate}</div>
+                <div>Price: ${phone.price}</div>
+                <div>OS: ${phone.os}</div>
+                <div>Screen: ${phone.screenres}</div>
+                <div>Storage: ${phone.storageGB}GB</div>
+                <div>RAM: ${phone.ramGB}GB</div>
+                <div>Battery: ${phone.batterymAH}mAh</div>
+                <div>Main Camera: ${phone.cam1MP}MP</div>
+                <div>Front Camera: ${phone.cam2MP}MP</div>
+                <div>
+                    Features:
+                    <span class="spec-${phone.wirelesscharging}">Wireless Charging</span> |
+                    <span class="spec-${phone.fingerprint}">Fingerprint</span> |
+                    <span class="spec-${phone.memoryslot}">SD Card</span>
+                </div>
+                <div class="shopping-links">
+                    <a href="${shoppingLinks.amazon}" target="_blank" rel="noopener noreferrer" class="shop-link amazon">
+                        Check on Amazon
+                    </a>
+                    <a href="${shoppingLinks.ebay}" target="_blank" rel="noopener noreferrer" class="shop-link ebay">
+                        View on eBay
+                    </a>
+                    <a href="${shoppingLinks.bestbuy}" target="_blank" rel="noopener noreferrer" class="shop-link bestbuy">
+                        Find at Best Buy
+                    </a>
+                </div>
+            </div>
+        `;
+        phonesList.appendChild(phoneCard);
+    }
+
+    resultsSection.style.display = 'block';
+}
+
+        // Handle form submission
+        document.getElementById('phone-finder').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const queryUrl = constructQueryURL(formData);
+
+            const searchButton = document.querySelector('.search-button');
+            const loader = document.getElementById('loader');
+            const resultsSection = document.getElementById('results');
+
+            searchButton.disabled = true;
+            loader.style.display = 'block';
+            resultsSection.style.display = 'none';
+
+              try {
+                const response = await fetch(queryUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Origin': window.location.origin
+                    },
+                    mode: 'cors',
+                    credentials: 'omit'
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const phones = await response.json();
+                displayResults(phones);
+            } catch (error) {
+                console.error('Error:', error);
+                if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                    alert('Unable to connect to the server. Please check if the API endpoint is accessible and CORS is enabled.');
+                } else {
+                    alert('There was an error fetching the results. Please try again.');
+                }
+            }
+            finally {
+        // Re-enable button and hide loader in finally block to ensure it always runs
+        searchButton.disabled = false;
+        loader.style.display = 'none';
+    }
+        
+        });
+
+        function toggleAdvanced() {
+            const advancedSection = document.getElementById('advanced-search');
+            const toggleButton = document.querySelector('.advanced-toggle');
+            advancedSection.classList.toggle('show');
+            toggleButton.textContent = advancedSection.classList.contains('show') 
+                ? 'Hide Advanced Search' 
+                : 'Show Advanced Search';
+        }
+
+        // Update range value display
+        const yearInput = document.getElementById('year');
+        yearInput.addEventListener('input', function() {
+            const rangeValues = document.querySelector('.range-values');
+            rangeValues.innerHTML = `<span>2012</span><span>${this.value}</span>`;
+        });
+    </script>
+</body>
+</html>
